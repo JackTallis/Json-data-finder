@@ -1,0 +1,10 @@
+import json
+
+def find_failed_logins(log_file):
+    with open(log_file) as f:
+        data = json.load(f)
+    for event in data['Records']:
+        if event['eventName'] == 'ConsoleLogin' and event['responseElements']['ConsoleLogin'] == 'Failure':
+            print(event['userIdentity']['arn'], event['sourceIPAddress'], event['eventTime'])
+
+find_failed_logins('cloudtrail.json')
